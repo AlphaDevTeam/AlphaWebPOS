@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="./../../MainTemplateUI.xhtml">
+            <ui:define name="content">
+                <h:form target="_new"> 
+                    
+                    <h:outputLabel value="Date : " for="Date" />  
+                    <p:calendar id="Date" value="#{cashbookHandler.relatedDate}" pattern="MM/dd/yyyy" title="Date">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />  
+                    </p:calendar>
+                    <h:outputLabel value="Location :" for="paymentLocation" />
+                    <p:selectOneMenu id="paymentLocation" value="#{cashbookHandler.relatedLocation}" label="Location" converter="#{locationConvertor}"  >
+                        <f:selectItem itemLabel="Select One"  />  
+                        <f:selectItems value="#{locationHandler.list}"/>
+                    </p:selectOneMenu>
+                    <p:commandButton value="Refresh" update="dataTable"/>  
+                    <p:commandButton value="Print" ajax="false"  action="#{cashbookHandler.printReportDownload}"/>
+                    <f:view>
+                                
+                                    <h1><h:outputText value="Cash Book"/></h1>
+                                    
+                                    <p:dataTable id="dataTable" value="#{cashbookHandler.list}" var="item">
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Id"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.id}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Description"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.description}"/>
+                                        </p:column>
+                                         <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="CR"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.CR}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="DR"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.DR}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Balance"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.balance}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Location"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.location}"/>
+                                        </p:column>
+
+                                    </p:dataTable>
+                            </f:view>
+                   </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

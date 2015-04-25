@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>WeB PoS - #{systemsHandler.current.header}</title>
+    </h:head>
+    <h:body>
+
+        <ui:composition template="./../../MainTemplateUI.xhtml">
+            <ui:define name="content">
+                <f:view>
+                    <h:form>
+                        <h1><h:outputText value="Manage Items"/></h1>
+                        <h:panelGrid columns="2" id="panel">
+                            <h:outputLabel value="Item Barcode : " for="itemBarcode" />
+                            <h:inputText id="itemBarcode" value="#{itemsHandler.current.itemBarcode}" title="Item Barcode" />
+                            <h:outputLabel value="Item Code : " for="itemCode" />
+                            <h:inputText id="itemCode" value="#{itemsHandler.current.itemCode}" title="Item Code" />
+                            <h:outputLabel value="Cost : " for="itemCost" />
+                            <h:inputText id="itemCost" value="#{itemsHandler.current.itemCost}" title="Cost" required="true" />
+                            <h:outputLabel value="Description : " for="itemDescription"  />
+                            <h:inputText id="itemDescription" value="#{itemsHandler.current.itemDescription}" title="Description" required="true" />
+
+                            <h:outputLabel value="UOM : " for="unitOfMeasurement" />
+                            <h:selectOneMenu id="unitOfMeasurement" value="#{itemsHandler.current.unitOfMeasurement}" title="Unit Of Measurement" required="true" converter="#{unitsConvertor}" >
+                                <f:selectItems value="#{unitsHandler.list}"/>
+                            </h:selectOneMenu>
+
+                            <h:outputLabel value="Capacity : " for="itemCapacity" />
+                            <h:inputText id="itemCapacity" value="#{itemsHandler.current.capacity}" title="Capacity" />
+
+                            <h:outputLabel value="Location : " for="itemLocation" />
+                            <p:selectOneMenu id="itemLocation" value="#{itemsHandler.current.itemLocation}" label="Location" converter="#{locationConvertor}" required="true" >
+                                <f:selectItem itemLabel="Select One" />  
+                                <f:selectItems value="#{locationHandler.list}"/>
+                            </p:selectOneMenu>
+                            <h:outputLabel value="Item : " for="itemName" />
+                            <h:inputText id="itemName" value="#{itemsHandler.current.itemName}" title="Item" required="true"  />
+
+                            <h:outputLabel value="Product : " for="itemProduct" />
+                            <p:selectOneMenu id="itemProduct" value="#{itemsHandler.current.itemProduct}" label="Product" converter="#{productConvertor}" required="true" >
+                                <f:selectItem itemLabel="Select One" />  
+                                <f:selectItems value="#{productHandler.list}" />
+                                <p:ajax update="itemProduct,itemDesign" /> 
+                            </p:selectOneMenu>
+
+                            <h:outputLabel id="designText" value="Design : " for="itemDesign" />
+                            <p:selectOneMenu id="itemDesign" value="#{itemsHandler.current.itemDesign}" label="Design" required="true" converter="#{designConvertor}" >
+                                <f:selectItem itemLabel="Select One" />  
+                                <f:selectItems value="#{itemsHandler.listSpec}"/>
+                            </p:selectOneMenu>
+
+                            <h:outputLabel value="Supplier : " for="itemSupplier" />
+                            <p:selectOneMenu id="itemSupplier" value="#{itemsHandler.current.itemSupplier}" label="Supplier" converter="#{supplierConvertor}" required="true" >
+                                <f:selectItem itemLabel="Select One" />  
+                                <f:selectItems value="#{supplierHandler.allSuppliers()}"/>
+                            </p:selectOneMenu>
+
+                            <h:outputLabel value="Reorder Level : " for="reorderLevel" />
+                            <h:inputText id="reorderLevel" value="#{itemsHandler.current.reorderLevel}" title="ReorderLevel" />
+
+                            <h:outputLabel value="Unit Price :" for="unitPrice" />
+                            <h:inputText id="unitPrice" value="#{itemsHandler.current.unitPrice}" title="UnitPrice" required="true" />
+
+                            <h:commandButton value="Save" action="#{itemsHandler.persistItem()}"/>
+                        </h:panelGrid>
+                    </h:form>
+                </f:view>
+            </ui:define>
+        </ui:composition>
+
+    </h:body>
+</html>
+
